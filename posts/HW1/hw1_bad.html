@@ -153,7 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Climate Data Visualization</h1>
-                      </div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">PIC16B</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -188,15 +191,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="today-well-be-using-the-dataset-from-noaa-to-visualize-temperature-data-from-stations-around-the-world-using-plotly." class="level3">
-<h3 class="anchored" data-anchor-id="today-well-be-using-the-dataset-from-noaa-to-visualize-temperature-data-from-stations-around-the-world-using-plotly.">Today we’ll be using the dataset from NOAA to visualize temperature data from stations around the world using plotly.</h3>
+<section id="data-visualization-using-plotly" class="level1">
+<h1>Data Visualization Using Plotly</h1>
+<p>Today we’ll use <a href="https://raw.githubusercontent.com/mysociety/gaze/master/data/fips-10-4-to-iso-country-codes.csv">this dataset</a> containing temperature readings from NOAA stations around the world to practice data wrangling and visualization using <code>pandas</code>, <code>SQL</code>, and <code>plotly</code>.</p>
 <p>First, let’s import the necessary packages.</p>
-<div id="89b16ebc" class="cell" data-execution_count="3">
+<div id="89b16ebc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="21f7e014" class="cell" data-execution_count="4">
+<div id="21f7e014" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pio.renderers.default<span class="op">=</span><span class="st">"iframe"</span></span>
@@ -208,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In earlier lectures, we created a database called <code>temps.db</code> that contains two tables: <code>stations</code> and <code>temperatures</code>. If you have this database, make sure it is saved in this directory and then skip ahead to “adding the <code>countries</code> table”. If not, you can run the following code to make it.</p>
 <section id="creating-and-populating-the-database" class="level3">
 <h3 class="anchored" data-anchor-id="creating-and-populating-the-database">Creating and populating the Database</h3>
-<div id="5ed096b1" class="cell" data-execution_count="8">
+<div id="5ed096b1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create folder named "datafiles" if it does not exist</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"datafiles"</span>): </span>
@@ -222,10 +226,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"https://raw.githubusercontent.com/PIC16B-ucla/24F/main/datasets/noaa-ghcn/decades/</span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss">.csv"</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(url, <span class="ss">f"datafiles/</span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss">.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3d8a90cc" class="cell" data-execution_count="9">
+<div id="3d8a90cc" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"temps.db"</span>) <span class="co"># create a database in current directory called temps.db</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9be83be8" class="cell" data-execution_count="10">
+<div id="9be83be8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_df(df):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    prepares a piece of wide format dataframe into a long format data frame</span></span>
@@ -247,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="populate-the-temperatures-table" class="level4">
 <h4 class="anchored" data-anchor-id="populate-the-temperatures-table">Populate the <code>temperatures</code> table:</h4>
-<div id="54333080" class="cell" data-execution_count="12">
+<div id="54333080" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>intervals <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">9</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1901</span>, <span class="dv">2020</span>, <span class="dv">10</span>)]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, interval <span class="kw">in</span> <span class="bu">enumerate</span>(intervals):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    filepath <span class="op">=</span> <span class="ss">f"datafiles/</span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss">.csv"</span></span>
@@ -258,19 +262,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="populate-the-stations-table" class="level4">
 <h4 class="anchored" data-anchor-id="populate-the-stations-table">Populate the <code>stations</code> table:</h4>
-<div id="459b4933" class="cell" data-execution_count="14">
+<div id="459b4933" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="op">\</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">"https://raw.githubusercontent.com/PIC16B-ucla/25W/refs/heads/main/datasets/noaa-ghcn/station-metadata.csv"</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>stations <span class="op">=</span> pd.read_csv(filename)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>stations.to_sql(<span class="st">"stations"</span>, conn, if_exists <span class="op">=</span> <span class="st">"replace"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>27585</code></pre>
 </div>
 </div>
 </section>
 <section id="check-that-the-database-is-populated-correctly" class="level4">
 <h4 class="anchored" data-anchor-id="check-that-the-database-is-populated-correctly">Check that the database is populated correctly:</h4>
-<div id="63acb069" class="cell" data-execution_count="16">
+<div id="63acb069" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> conn.cursor()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"SELECT name FROM sqlite_master WHERE type='table'"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cursor.fetchall())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -279,14 +283,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The output should read “[(‘temperatures’,), (‘stations’,)]”. Now we’re ready to move on to the <code>countries</code> table! But first, let’s close the connection to be safe.</p>
-<div id="b66f4404" class="cell" data-execution_count="18">
+<div id="b66f4404" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="create-and-populate-the-countries-table" class="level3">
 <h3 class="anchored" data-anchor-id="create-and-populate-the-countries-table">Create and populate the <code>countries</code> table:</h3>
-<div id="87b3cc53" class="cell" data-execution_count="20">
+<div id="87b3cc53" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> sqlite3.<span class="ex">connect</span>(<span class="st">"temps.db"</span>) <span class="im">as</span> conn:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    cursor <span class="op">=</span> conn.cursor()</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -327,7 +331,7 @@ CREATE TABLE "countries" (
 <section id="question-1-how-does-the-average-yearly-change-in-temperature-vary-within-a-given-country" class="level2">
 <h2 class="anchored" data-anchor-id="question-1-how-does-the-average-yearly-change-in-temperature-vary-within-a-given-country">Question 1: How does the average yearly change in temperature vary within a given country?</h2>
 <p>To answer this question, we’ll make a geographic scatterplot using the function <code>temperature_coefficient_plot</code>. This function uses another function, <code>coef</code>, which we’ll define first. <code>coef</code> is used to calculate the first coefficient in the linear regression for <code>Temp</code> vs.&nbsp;<code>Year</code>, which we will use to estimate the average yearly change in temperature over our interval.</p>
-<div id="57ab3a20" class="cell" data-execution_count="25">
+<div id="57ab3a20" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> coef(data_group):</span>
@@ -341,18 +345,12 @@ CREATE TABLE "countries" (
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">round</span>(LR.coef_[<span class="dv">0</span>], <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>temperature_coefficient_plot</code> also uses another function, <code>query_climate_database</code> to access the database, which is defined in the file <code>climate_database.py</code> (make sure you have this saved in this directory!).</p>
-<div id="ef012c2d" class="cell" data-execution_count="27">
+<div id="ef012c2d" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> climate_database <span class="im">import</span> query_climate_database</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(inspect.getsource(query_climate_database))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>def query_climate_database(db_file, country, year_begin, year_end, month):
-    
-    """
-    makes a query to db_file for climate data for given arguments and
-    returns a dataframe with relevant data    
-    """
-    
     cols = 'stations.NAME, LATITUDE, LONGITUDE, countries.Name AS Country, Year, Month, Temp'
     ISOcmd = \
     f"""
@@ -384,7 +382,7 @@ CREATE TABLE "countries" (
 </code></pre>
 </div>
 </div>
-<div id="db08b3ce" class="cell" data-execution_count="28">
+<div id="db08b3ce" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> temperature_coefficient_plot(db_file, country, year_begin, year_end, </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                 month, min_obs, <span class="op">**</span>kwargs):</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -426,7 +424,7 @@ CREATE TABLE "countries" (
 <span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our first plotting function is now fully defined. Let’s test it out!</p>
-<div id="501dd04f" class="cell" data-execution_count="30">
+<div id="501dd04f" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> px.colors.diverging.RdGy_r <span class="co"># choose a colormap</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> temperature_coefficient_plot(<span class="st">"temps.db"</span>, <span class="st">"India"</span>, <span class="dv">1980</span>, <span class="dv">2020</span>, <span class="dv">1</span>, </span>
@@ -436,221 +434,209 @@ CREATE TABLE "countries" (
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                                   color_continuous_scale<span class="op">=</span>color_map)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\Beatrice NT\AppData\Local\Temp\ipykernel_13316\1511400234.py:19: DeprecationWarning:
-
-DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
-</code></pre>
-</div>
 <div class="cell-output cell-output-display">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_30.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_14.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="e770b40d" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> <span class="st">'portland'</span> <span class="co"># choose a colormap</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> temperature_coefficient_plot(<span class="st">"temps.db"</span>, <span class="st">"United States"</span>, <span class="dv">1960</span>, <span class="dv">2015</span>, <span class="dv">6</span>, </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                   min_obs <span class="op">=</span> <span class="dv">10</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                   zoom <span class="op">=</span> <span class="dv">2</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                   mapbox_style<span class="op">=</span><span class="st">"carto-positron"</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                   color_continuous_scale<span class="op">=</span>color_map,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                                  opacity <span class="op">=</span> <span class="fl">0.6</span>)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\Beatrice NT\AppData\Local\Temp\ipykernel_13316\1511400234.py:19: DeprecationWarning:
-
-DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
-</code></pre>
-</div>
+<div id="e770b40d" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> <span class="st">'portland'</span> <span class="co"># choose a colormap</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> temperature_coefficient_plot(<span class="st">"temps.db"</span>, <span class="st">"United States"</span>, <span class="dv">1960</span>, <span class="dv">2015</span>, <span class="dv">6</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                   min_obs <span class="op">=</span> <span class="dv">10</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                   zoom <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                                   mapbox_style<span class="op">=</span><span class="st">"carto-positron"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                                   color_continuous_scale<span class="op">=</span>color_map,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                                  opacity <span class="op">=</span> <span class="fl">0.6</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_31.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_15.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
 </section>
 <section id="question-2-how-does-the-average-temperature-at-stations-in-a-given-country-vary-over-time-during-winter-vs.-summer" class="level2">
 <h2 class="anchored" data-anchor-id="question-2-how-does-the-average-temperature-at-stations-in-a-given-country-vary-over-time-during-winter-vs.-summer">Question 2: How does the average temperature at stations in a given country vary over time during winter vs.&nbsp;summer?</h2>
 <p>We’ll define another function to visualize the data to answer this question and another query function to help it.</p>
-<div id="188f52a2" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> averages_query(db_file, country, begin, end):</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a query to the database for the given country during interval,</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">    returns a dataframe with averaged temperatures for each station</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">    during the months January and June</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    ISOcmd <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT stations.NAME, Month, Year, AVG(Temp)</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "ISO 3166")</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE countries.Name = </span><span class="ch">\'</span><span class="sc">{</span>country<span class="sc">}</span><span class="ch">\'</span><span class="ss"> AND Year &gt;= </span><span class="sc">{</span>begin<span class="sc">}</span><span class="ss"> AND Year &lt;= </span><span class="sc">{</span>end<span class="sc">}</span><span class="ss"> </span><span class="ch">\</span></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="ss">        AND (Month = 1 OR Month = 6)</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY Month</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    FIPScmd <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT stations.NAME, Month, Year, AVG(Temp)</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "FIPS 10-4")</span></span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE countries.Name = </span><span class="ch">\'</span><span class="sc">{</span>country<span class="sc">}</span><span class="ch">\'</span><span class="ss"> AND Year &gt;= </span><span class="sc">{</span>begin<span class="sc">}</span><span class="ss"> AND Year &lt;= </span><span class="sc">{</span>end<span class="sc">}</span><span class="ss"> </span><span class="ch">\</span></span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="ss">        AND (Month = 1 OR Month = 6)</span></span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY stations.NAME, Month</span></span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> sqlite3.<span class="ex">connect</span>(db_file) <span class="im">as</span> conn:</span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>        cursor <span class="op">=</span> conn.cursor()</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_sql_query(ISOcmd, conn)</span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>        df2 <span class="op">=</span> pd.read_sql_query(FIPScmd, conn)</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.merge(df2, how <span class="op">=</span> <span class="st">'outer'</span>)</span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="188f52a2" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> averages_query(db_file, country, begin, end):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a query to the database for the given country during interval,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">    returns a dataframe with averaged temperatures for each station</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">    during the months January and June</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    ISOcmd <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT stations.NAME, Month, Year, AVG(Temp)</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "ISO 3166")</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE countries.Name = </span><span class="ch">\'</span><span class="sc">{</span>country<span class="sc">}</span><span class="ch">\'</span><span class="ss"> AND Year &gt;= </span><span class="sc">{</span>begin<span class="sc">}</span><span class="ss"> AND Year &lt;= </span><span class="sc">{</span>end<span class="sc">}</span><span class="ss"> </span><span class="ch">\</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="ss">        AND (Month = 1 OR Month = 6)</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY Month</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    FIPScmd <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT stations.NAME, Month, Year, AVG(Temp)</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "FIPS 10-4")</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE countries.Name = </span><span class="ch">\'</span><span class="sc">{</span>country<span class="sc">}</span><span class="ch">\'</span><span class="ss"> AND Year &gt;= </span><span class="sc">{</span>begin<span class="sc">}</span><span class="ss"> AND Year &lt;= </span><span class="sc">{</span>end<span class="sc">}</span><span class="ss"> </span><span class="ch">\</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="ss">        AND (Month = 1 OR Month = 6)</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY stations.NAME, Month</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> sqlite3.<span class="ex">connect</span>(db_file) <span class="im">as</span> conn:</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        cursor <span class="op">=</span> conn.cursor()</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_sql_query(ISOcmd, conn)</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        df2 <span class="op">=</span> pd.read_sql_query(FIPScmd, conn)</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.merge(df2, how <span class="op">=</span> <span class="st">'outer'</span>)</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e19e2dad" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> seasonal_temps_plot(db_file, country, year_begin, year_end, </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                        interval_length <span class="op">=</span> <span class="dv">10</span>, width <span class="op">=</span> <span class="dv">600</span>, height <span class="op">=</span> <span class="dv">350</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a boxplot of average temperatures over given time span </span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">    for stations in given country during January and June</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span>    </span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> interval_length <span class="op">==</span> <span class="dv">10</span>: interval <span class="op">=</span> <span class="st">'Decade'</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: interval <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>interval_length<span class="sc">}</span><span class="ss"> - Year Intervals"</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#call averages to get df</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> year_begin</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> [<span class="st">'NAME'</span>, <span class="st">'Month'</span>, <span class="st">'Year'</span>, <span class="st">'AVG(Temp)'</span>])</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">+</span> interval_length <span class="op">-</span><span class="dv">1</span> <span class="op">&lt;=</span> year_end:</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.merge(averages_query(db_file, country, i, i <span class="op">+</span> interval_length <span class="op">-</span><span class="dv">1</span>),</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>                      how <span class="op">=</span> <span class="st">'outer'</span>,</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>                      on <span class="op">=</span> [<span class="st">'NAME'</span>, <span class="st">'Month'</span>, <span class="st">'Year'</span>, <span class="st">'AVG(Temp)'</span>])</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> interval_length</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#make the plot</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">'Year'</span>] <span class="op">%</span> interval_length <span class="op">==</span> year_begin <span class="op">%</span> interval_length] </span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#to drop the rows that don't have data for the entire interval</span></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Month'</span>] <span class="op">=</span> df[<span class="st">'Month'</span>].<span class="bu">map</span>({<span class="dv">1</span> : <span class="st">'January'</span>, <span class="dv">6</span> : <span class="st">'June'</span>})</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.box(data_frame <span class="op">=</span> df,</span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>                 x <span class="op">=</span> <span class="st">"Year"</span>,</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>                 y <span class="op">=</span> <span class="st">"AVG(Temp)"</span>,</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>                 hover_name <span class="op">=</span> <span class="st">"NAME"</span>,</span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>                 width <span class="op">=</span> width,</span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>                 height <span class="op">=</span> height,</span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>                 color <span class="op">=</span> <span class="st">"Month"</span>,</span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>                 title <span class="op">=</span> <span class="ss">f"Mean Temps by </span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss"> for Stations in </span><span class="sc">{</span>country<span class="sc">}</span><span class="ss"> from </span><span class="sc">{</span>year_begin<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>year_end<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>                 <span class="op">**</span>kwargs)</span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(yaxis_title <span class="op">=</span> <span class="st">'Average Temperatures'</span>)</span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(margin<span class="op">=</span>{<span class="st">"r"</span>:<span class="dv">80</span>,<span class="st">"t"</span>:<span class="dv">50</span>,<span class="st">"l"</span>:<span class="dv">40</span>,<span class="st">"b"</span>:<span class="dv">0</span>})</span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e19e2dad" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> seasonal_temps_plot(db_file, country, year_begin, year_end, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                        interval_length <span class="op">=</span> <span class="dv">10</span>, width <span class="op">=</span> <span class="dv">600</span>, height <span class="op">=</span> <span class="dv">350</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a boxplot of average temperatures over given time span </span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">    for stations in given country during January and June</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span>    </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> interval_length <span class="op">==</span> <span class="dv">10</span>: interval <span class="op">=</span> <span class="st">'Decade'</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: interval <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>interval_length<span class="sc">}</span><span class="ss"> - Year Intervals"</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#call averages to get df</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> year_begin</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> [<span class="st">'NAME'</span>, <span class="st">'Month'</span>, <span class="st">'Year'</span>, <span class="st">'AVG(Temp)'</span>])</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">+</span> interval_length <span class="op">-</span><span class="dv">1</span> <span class="op">&lt;=</span> year_end:</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.merge(averages_query(db_file, country, i, i <span class="op">+</span> interval_length <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>                      how <span class="op">=</span> <span class="st">'outer'</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>                      on <span class="op">=</span> [<span class="st">'NAME'</span>, <span class="st">'Month'</span>, <span class="st">'Year'</span>, <span class="st">'AVG(Temp)'</span>])</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> interval_length</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#make the plot</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">'Year'</span>] <span class="op">%</span> interval_length <span class="op">==</span> year_begin <span class="op">%</span> interval_length] </span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#to drop the rows that don't have data for the entire interval</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Month'</span>] <span class="op">=</span> df[<span class="st">'Month'</span>].<span class="bu">map</span>({<span class="dv">1</span> : <span class="st">'January'</span>, <span class="dv">6</span> : <span class="st">'June'</span>})</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.box(data_frame <span class="op">=</span> df,</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>                 x <span class="op">=</span> <span class="st">"Year"</span>,</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>                 y <span class="op">=</span> <span class="st">"AVG(Temp)"</span>,</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>                 hover_name <span class="op">=</span> <span class="st">"NAME"</span>,</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>                 width <span class="op">=</span> width,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>                 height <span class="op">=</span> height,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>                 color <span class="op">=</span> <span class="st">"Month"</span>,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>                 title <span class="op">=</span> <span class="ss">f"Mean Temps by </span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss"> for Stations in </span><span class="sc">{</span>country<span class="sc">}</span><span class="ss"> from </span><span class="sc">{</span>year_begin<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>year_end<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>                 <span class="op">**</span>kwargs)</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(yaxis_title <span class="op">=</span> <span class="st">'Average Temperatures'</span>)</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(margin<span class="op">=</span>{<span class="st">"r"</span>:<span class="dv">80</span>,<span class="st">"t"</span>:<span class="dv">50</span>,<span class="st">"l"</span>:<span class="dv">40</span>,<span class="st">"b"</span>:<span class="dv">0</span>})</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>That’s all we need. Let’s try it out!</p>
-<div id="ecb26c0f" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> seasonal_temps_plot(<span class="st">"temps.db"</span>, <span class="st">"India"</span>, <span class="dv">1980</span>, <span class="dv">2020</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ecb26c0f" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> seasonal_temps_plot(<span class="st">"temps.db"</span>, <span class="st">"India"</span>, <span class="dv">1980</span>, <span class="dv">2020</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<iframe scrolling="no" width="620px" height="370" src="iframe_figures/figure_37.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="620px" height="370" src="iframe_figures/figure_33.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="9722f14e" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> seasonal_temps_plot(<span class="st">"temps.db"</span>, <span class="st">"United States"</span>, <span class="dv">1960</span>, <span class="dv">2020</span>, width <span class="op">=</span> <span class="dv">700</span>, height <span class="op">=</span> <span class="dv">400</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9722f14e" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> seasonal_temps_plot(<span class="st">"temps.db"</span>, <span class="st">"United States"</span>, <span class="dv">1960</span>, <span class="dv">2020</span>, width <span class="op">=</span> <span class="dv">700</span>, height <span class="op">=</span> <span class="dv">400</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<iframe scrolling="no" width="720px" height="420" src="iframe_figures/figure_38.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="720px" height="420" src="iframe_figures/figure_35.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
 </section>
 <section id="question-3-how-much-does-temperature-range-vary-across-latitudes-in-different-years" class="level2">
 <h2 class="anchored" data-anchor-id="question-3-how-much-does-temperature-range-vary-across-latitudes-in-different-years">Question 3: How much does temperature range vary across latitudes in different years?</h2>
 <p>Again, let’s make a query function and a plot function to answer this question.</p>
-<div id="5491beac" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> temp_range_query(db_file, year):</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a query to database for the given year, returns a dataframe</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">    with max, min, and range of temperature, averaged across stations in each country</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> <span class="st">'stations.NAME, LATITUDE, countries.Name AS Country, Year, MAX(Temp), MIN(Temp)'</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    ISOcmd <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT </span><span class="sc">{</span>cols<span class="sc">}</span><span class="ss"> </span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "ISO 3166")</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE Year = </span><span class="sc">{</span>year<span class="sc">}</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY countries.Name, stations.NAME</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    FIPScmd <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT </span><span class="sc">{</span>cols<span class="sc">}</span><span class="ss"> </span></span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "FIPS 10-4")</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE Year = </span><span class="sc">{</span>year<span class="sc">}</span></span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY countries.Name, stations.NAME</span></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> sqlite3.<span class="ex">connect</span>(db_file) <span class="im">as</span> conn:</span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>        cursor <span class="op">=</span> conn.cursor()</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_sql_query(ISOcmd, conn)</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>        df2 <span class="op">=</span> pd.read_sql_query(FIPScmd, conn)</span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.merge(df2, how <span class="op">=</span> <span class="st">'outer'</span>)</span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Temp Range'</span>] <span class="op">=</span> df[<span class="st">'MAX(Temp)'</span>] <span class="op">-</span> df[<span class="st">'MIN(Temp)'</span>]</span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Temp Range'</span>] <span class="op">=</span> df.groupby(<span class="st">'Country'</span>)[<span class="st">'Temp Range'</span>].transform(<span class="st">'mean'</span>)</span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'LATITUDE'</span>] <span class="op">=</span> df.groupby(<span class="st">'Country'</span>)[<span class="st">'LATITUDE'</span>].transform(<span class="st">'mean'</span>)</span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>    df.drop_duplicates(subset <span class="op">=</span> [<span class="st">'Country'</span>], inplace <span class="op">=</span> <span class="va">True</span>, ignore_index <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5491beac" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> temp_range_query(db_file, year):</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a query to database for the given year, returns a dataframe</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">    with max, min, and range of temperature, averaged across stations in each country</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> <span class="st">'stations.NAME, LATITUDE, countries.Name AS Country, Year, MAX(Temp), MIN(Temp)'</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    ISOcmd <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT </span><span class="sc">{</span>cols<span class="sc">}</span><span class="ss"> </span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "ISO 3166")</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE Year = </span><span class="sc">{</span>year<span class="sc">}</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY countries.Name, stations.NAME</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    FIPScmd <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"""</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT </span><span class="sc">{</span>cols<span class="sc">}</span><span class="ss"> </span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM ((temperatures </span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="ss">        INNER JOIN stations ON temperatures.ID = stations.ID)</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="ss">        LEFT JOIN countries ON SUBSTR(stations.ID, 1, 2) = "FIPS 10-4")</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE Year = </span><span class="sc">{</span>year<span class="sc">}</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY countries.Name, stations.NAME</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="ss">    ;"""</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> sqlite3.<span class="ex">connect</span>(db_file) <span class="im">as</span> conn:</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>        cursor <span class="op">=</span> conn.cursor()</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_sql_query(ISOcmd, conn)</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>        df2 <span class="op">=</span> pd.read_sql_query(FIPScmd, conn)</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.merge(df2, how <span class="op">=</span> <span class="st">'outer'</span>)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Temp Range'</span>] <span class="op">=</span> df[<span class="st">'MAX(Temp)'</span>] <span class="op">-</span> df[<span class="st">'MIN(Temp)'</span>]</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Temp Range'</span>] <span class="op">=</span> df.groupby(<span class="st">'Country'</span>)[<span class="st">'Temp Range'</span>].transform(<span class="st">'mean'</span>)</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'LATITUDE'</span>] <span class="op">=</span> df.groupby(<span class="st">'Country'</span>)[<span class="st">'LATITUDE'</span>].transform(<span class="st">'mean'</span>)</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    df.drop_duplicates(subset <span class="op">=</span> [<span class="st">'Country'</span>], inplace <span class="op">=</span> <span class="va">True</span>, ignore_index <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c1b14a11" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> temp_range_compare(db_file, year1, year2, opacity <span class="op">=</span> <span class="fl">0.5</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a scatterplot of temperature range vs. latitude averaged across stations</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">    in each country during the given years, returns the figure</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.concat([temp_range_query(db_file, year1), temp_range_query(db_file, year2)])</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    df.dropna(inplace <span class="op">=</span> <span class="va">True</span>, ignore_index <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.scatter(data_frame <span class="op">=</span> df,</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                 x <span class="op">=</span> <span class="st">"LATITUDE"</span>,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                 y <span class="op">=</span> <span class="st">"Temp Range"</span>,</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                 width <span class="op">=</span> <span class="dv">700</span>,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 height <span class="op">=</span> <span class="dv">400</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                 hover_name <span class="op">=</span> <span class="st">'Country'</span>,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>                 hover_data <span class="op">=</span> [<span class="st">'MAX(Temp)'</span>, <span class="st">'MIN(Temp)'</span>],</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>                 facet_col <span class="op">=</span> <span class="st">'Year'</span>,</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>                 color <span class="op">=</span> <span class="st">'MAX(Temp)'</span>,</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>                 opacity <span class="op">=</span> opacity,</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                 title <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                     <span class="ss">f"Average Temperature Range vs. Latitude by Country in </span><span class="sc">{</span>year1<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>year2<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                 <span class="op">**</span>kwargs</span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>                )</span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c1b14a11" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> temp_range_compare(db_file, year1, year2, opacity <span class="op">=</span> <span class="fl">0.5</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">    makes a scatterplot of temperature range vs. latitude averaged across stations</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">    in each country during the given years, returns the figure</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.concat([temp_range_query(db_file, year1), temp_range_query(db_file, year2)])</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    df.dropna(inplace <span class="op">=</span> <span class="va">True</span>, ignore_index <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.scatter(data_frame <span class="op">=</span> df,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                 x <span class="op">=</span> <span class="st">"LATITUDE"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                 y <span class="op">=</span> <span class="st">"Temp Range"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                 width <span class="op">=</span> <span class="dv">700</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                 height <span class="op">=</span> <span class="dv">400</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                 hover_name <span class="op">=</span> <span class="st">'Country'</span>,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>                 hover_data <span class="op">=</span> [<span class="st">'MAX(Temp)'</span>, <span class="st">'MIN(Temp)'</span>],</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>                 facet_col <span class="op">=</span> <span class="st">'Year'</span>,</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>                 color <span class="op">=</span> <span class="st">'MAX(Temp)'</span>,</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>                 opacity <span class="op">=</span> opacity,</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>                 title <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>                     <span class="ss">f"Average Temperature Range vs. Latitude by Country in </span><span class="sc">{</span>year1<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>year2<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>                 <span class="op">**</span>kwargs</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e1b73670" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>temp_range_compare(<span class="st">'temps.db'</span>, year1 <span class="op">=</span> <span class="dv">1980</span>, year2 <span class="op">=</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e1b73670" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>temp_range_compare(<span class="st">'temps.db'</span>, year1 <span class="op">=</span> <span class="dv">1980</span>, year2 <span class="op">=</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<iframe scrolling="no" width="720px" height="420" src="iframe_figures/figure_43.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="720px" height="420" src="iframe_figures/figure_37.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="25954d91" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>temp_range_compare(<span class="st">'temps.db'</span>, <span class="dv">1901</span>, <span class="dv">1970</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="25954d91" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>temp_range_compare(<span class="st">'temps.db'</span>, <span class="dv">1901</span>, <span class="dv">1970</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<iframe scrolling="no" width="720px" height="420" src="iframe_figures/figure_44.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="720px" height="420" src="iframe_figures/figure_38.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
 <p>Cool! We can see that countries farther from the equator tend to have a larger temperature range, and the color tells us that colder (in terms of maximum temperature) countries tend to have a larger temperature range, and that these trends appear consistently throughout different years (although the maximum temperatures seem to have increased in general).</p>
@@ -750,7 +736,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/beanelsontalbot\.github\.io\/stunning-umbrella\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
