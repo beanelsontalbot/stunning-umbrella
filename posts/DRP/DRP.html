@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Bea Nelson-Talbot">
+<meta name="dcterms.date" content="2026-10-02">
+
+<title>Commutative Algebra – Bea’s Blog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bea’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/beanelsontalbot/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Commutative Algebra</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Math</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Bea Nelson-Talbot </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 2, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p><em>This post is meant to be a more readable, and hopefully more accessible, version of the presentation I gave in Spring 2025 as part of UCLA’s Directed Reading Program (the original slides are posted on their <a href="https://sites.google.com/g.ucla.edu/uclamathdrp/resources/past-projects?authuser=0">website</a>) after working my way through the first few chapters of Atiyah-MacDonald. I hope that even non-math people will be able to follow the concepts in this post – don’t worry about the technical bits. Finally, thank you to my mentor, Joshua Enwright!</em></p>
+<div id="0-mumford" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="mumford.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Mumford’s Treasure Map depicting <span class="math inline">\(Spec(\mathbb{Z}[x])\)</span></figcaption>
+</figure>
+</div>
+<section id="in-this-post" class="level1">
+<h1>In This Post</h1>
+<p>We will of course begin by covering what commutative algebra is and why we want to study it – in short, it’s a tool for algebraic geometry. This brings us to the central question, which asks how to associate geometric things to algebraic things. Section 2 covers the definitions of the mathematical objects we’ll be discussing in both mathematical and plain/hand-wavy terms. In Section 3 we make progress towards answering our central question by building a particular geometric object called the prime spectrum and then we observe some of its strange properties. This answers a big part of our question – given an algebraic thing, we can build a corresponding geometric thing. However, what makes this construction truly meaningful is the nature and strength of this correspondence. Section 4 describes the correspondence in more precise terms, bringing us to the main idea: an equivalence of categories between algebra and geometry.</p>
+<p>I tried to make this post accessible for a wide range of backgrounds – I’d suggest that you read however deeply as is interesting to you and <em>skip the boring parts</em>! It is not necessary to understand the definitions or proofs I give, but it would probably be helpful to look up a few words that I don’t officially define (<em>polynomial, commutative, topology,</em> etc.) if you’re not familiar.</p>
+<ul>
+<li><a href="#1-what-is">1. What is Commutative Algebra?</a>
+<ul>
+<li><a href="#11-why-study">1.1 Why study it?</a></li>
+<li><a href="#12-central-question">1.2 Central Question</a></li>
+</ul></li>
+<li><a href="#2-rings-and-ideals">2. Rings and Ideals</a>
+<ul>
+<li><a href="#21-definitions">2.1 Definitions</a></li>
+<li><a href="#22-operations">2.2 Operations on Ideals</a></li>
+</ul></li>
+<li><a href="#3-spec-zariski">3. The Prime Spectrum and the Zariski Topology</a>
+<ul>
+<li><a href="#31-construction">3.1 Construction</a></li>
+<li><a href="#32-verification">3.2 Verification</a></li>
+<li><a href="#33-open-sets">3.3 Open Sets in the Zariski Topology</a></li>
+<li><a href="#34-properties">3.4 Properties</a></li>
+</ul></li>
+<li><a href="#4-functoriality">4. Functoriality</a>
+<ul>
+<li><a href="#41-detour">4.1 A Little Detour into Category Theory</a></li>
+<li><a href="#42-morphisms">4.2 Hom(e)omorphisms</a></li>
+<li><a href="#43-quotient-closed">4.3 Quotients &amp; Closed Sets</a></li>
+<li><a href="#44-localization-open">4.4 Localizations &amp; Open Sets</a></li>
+<li><a href="#45-reflections">4.5 Reflections</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="1-what-is" class="level1">
+<h1>1. What is Commutative Algebra?</h1>
+<p>Commutative algebra is the study of commutative rings and their ideals, modules, and algebras. In layman’s terms, it is the study of sets in which the elements can be added and multiplied, and the multiplication is commutative (i.e.&nbsp;<span class="math inline">\(a\cdot b=b\cdot a\)</span>). The most familiar examples are the integers <span class="math inline">\(\mathbb{Z}\)</span> and the real numbers <span class="math inline">\(\mathbb{R}\)</span>. Another important example is the ring of polynomials in <span class="math inline">\(n\)</span> variables <span class="math inline">\(k[x_1, \ldots, x_n]\)</span> over a field <span class="math inline">\(k\)</span>.</p>
+<section id="11-why-study" class="level3">
+<h3 class="anchored" data-anchor-id="11-why-study">1.1 Why study it?</h3>
+<ul>
+<li><p>We want to understand the operations of addition and multiplication in a general setting</p></li>
+<li><p>Commutative rings show up in a lot of places – the definition is pretty general, so by studying arbitrary commutative rings, we learn about the objects we care about in many different areas of math. For example, number theory is all about studying the integers, while algebraic geometry focuses on polynomial rings. We need commutative algebra as a tool to understand both of these.</p></li>
+</ul>
+</section>
+<section id="12-central-question" class="level3">
+<h3 class="anchored" data-anchor-id="12-central-question">1.2 Central Question</h3>
+<p>I wanted to study commutative algebra for my DRP because I was interested in algebraic geometry. So this project is motivated by the endeavor to understand the associations between geometric things (living in <a href="https://en.wikipedia.org/wiki/Topological_space">topological spaces</a>) and algebraic objects. Think of graphing a function: the function itself is the <em>algebraic</em> data and the graph of it is the <em>geometric</em> representation.</p>
+<p>Given any topological space <span class="math inline">\(X\)</span>, there is one piece of low-hanging algebraic fruit: the ring of <em>real-valued continuous functions</em> on <span class="math inline">\(X\)</span>, <span class="math inline">\(C(X) :=\)</span> {continuous functions <span class="math inline">\(f: X \rightarrow \mathbb{R}\)</span>}. In other words, there is naturally a ring associated to <span class="math inline">\(X\)</span>. <span class="math inline">\(C(X)\)</span> is a ring because the functions can be added and multiplied point-wise (i.e., adding/multiplying the outputs of the functions, which are real numbers, at each point). So, for each topological space, we always have a corresponding commutative ring whose elements are continuous functions on it.</p>
+<p>Our natural next question is the converse: <em>Given an arbitrary commutative ring, can we associate a topological space to it such that the elements of this ring are continuous functions on that space?</em></p>
+<p>When we begin to think about this question, we should notice that there are some examples that have an obvious answer. For example, consider the ring of polynomials in two variables over the real numbers, <span class="math inline">\(\mathbb{R}[x, y]\)</span>. We can associate to this ring the real<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> plane <span class="math inline">\(\mathbb{R}^2\)</span> (with the standard topology), and the elements of <span class="math inline">\(\mathbb{R}[x, y]\)</span> are continuous functions on <span class="math inline">\(\mathbb{R}^2\)</span>. This should be our starting point – what is the connection between the geometric structure of <span class="math inline">\(\mathbb{R}^2\)</span> and the algebraic structure of <span class="math inline">\(\mathbb{R}[x, y]\)</span>? One observation to make is that the “zero sets” of polynomials define points and curves – <em>geometric objects</em> living in <span class="math inline">\(\mathbb{R}^2\)</span>.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="circle.png" class="img-fluid figure-img"></p>
+<figcaption>The unit circle is given by all the points <span class="math inline">\((x,y)\)</span> in <span class="math inline">\(\mathbb{R}^2\)</span> such that <span class="math inline">\(x^2+y^2-1=0\)</span>.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="loop.png" class="img-fluid figure-img"></p>
+<figcaption>This loopy curve is given by <span class="math inline">\(y^2-x^2(x+1)=0\)</span>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="2-rings-and-ideals" class="level1">
+<h1>2. Rings and Ideals</h1>
+<section id="21-definitions" class="level3">
+<h3 class="anchored" data-anchor-id="21-definitions">2.1 Definitions</h3>
+<p>This is where we begin to get technical. Feel free to follow along to whatever degree you want – I will try explain the constructions later on in both a technical and a more intuitive way.</p>
+<p><strong>Definition:</strong> A <em>ring</em> is a set <span class="math inline">\(A\)</span> equipped with two binary operations, addition and multiplication, such that:<br>
+ (i) <span class="math inline">\((A, +)\)</span> is an abelian group with identity element <span class="math inline">\(0\)</span>.<br>
+ (ii) <span class="math inline">\((A, \cdot)\)</span> is a monoid with identity element <span class="math inline">\(1\)</span>.<br>
+ (iii) Multiplication is distributive over addition.<br>
+ (iv) A ring is <em>commutative</em> if multiplication is commutative. Assume from here on out that all rings are commutative.</p>
+<p><strong>Definition:</strong> An <em>ideal</em> <span class="math inline">\(\mathfrak{a}\)</span> of a ring <span class="math inline">\(A\)</span> is a subset of <span class="math inline">\(A\)</span> such that:<br>
+ (i) <span class="math inline">\(x + y \in \mathfrak{a}\)</span> <span class="math inline">\((\forall\)</span> <span class="math inline">\(x\)</span>, <span class="math inline">\(y\in \mathfrak{a})\)</span><br>
+ (ii) <span class="math inline">\(ax \in \mathfrak{a}\)</span> (<span class="math inline">\(\forall\)</span> <span class="math inline">\(x \in \mathfrak{a}\)</span>, <span class="math inline">\(a \in A\)</span>)<br>
+<strong>Examples:</strong><br>
+- The zero ideal <span class="math inline">\(\{0\}\)</span><br>
+- The unit ideal <span class="math inline">\((1)=A\)</span><br>
+- Principal ideals: <span class="math inline">\((a) := \{ra : r \in A\}\)</span> is the principal ideal generated by <span class="math inline">\(a \in A\)</span><br>
+- The <em>radical</em> of an ideal <span class="math inline">\(\mathfrak{a}\)</span>, denoted <span class="math inline">\(r(\mathfrak{a})\)</span>, is the set {<span class="math inline">\(x \in A\)</span> s.t. <span class="math inline">\(x^n \in \mathfrak{a}\)</span> for some positive integer <span class="math inline">\(n\)</span>}. It is also an ideal.</p>
+<p>If you are not a math person, you can think of an ideal as a “zero set” of a ring. What I mean by this is that every ideal is the <em>kernel</em> (the set of elements that get sent to zero) of some ring homomorphism (a map between rings that preserves the ring structure). Conversely, the kernel of every ring homomorphism is an ideal. So this is another way to think about ideals: the kind of subset of a ring that can be “turned into zero” and the resulting ring (called the <em>quotient ring</em>) is still a ring.</p>
+<p><strong>Example:</strong> Take the ring <span class="math inline">\(\mathbb{R}[x]\)</span> of polynomials in one variable with real coefficients. Given any real number <span class="math inline">\(a\in \mathbb{R}\)</span>, the evaluation map <span class="math inline">\(x \mapsto a\)</span> (meaning we plug in <span class="math inline">\(x=a\)</span> to each polynomial) is a ring homomorphism <span class="math inline">\(\mathbb{R}[x] \rightarrow \mathbb{R}\)</span>. The kernel of this homomorphism is the ideal generated by <span class="math inline">\(x-a\)</span>. What this says is that all the multiples of <span class="math inline">\(x-a\)</span> are zero when we plug in <span class="math inline">\(x=a\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="x-1.png" class="img-fluid figure-img"></p>
+<figcaption>For <span class="math inline">\(a=1\)</span>, these three polynomials vanish since they are all divisible by <span class="math inline">\(x-1\)</span>. The blue line shows <span class="math inline">\(y=x-1\)</span>, green is <span class="math inline">\(y=x(x-1)\)</span>, and purple is <span class="math inline">\(y=(x-1)(x-2)(x-3)\)</span>. We can see that evaluation at 1 corresponds geometrically to looking at the graph where <span class="math inline">\(x=1\)</span>.</figcaption>
+</figure>
+</div>
+<p><strong>Definition:</strong> A <em>prime ideal</em> <span class="math inline">\(\mathfrak{p}\)</span> of a ring <span class="math inline">\(A\)</span> is an ideal such that:<br>
+ (i) <span class="math inline">\(\mathfrak{p} \neq A\)</span><br>
+ (ii) If <span class="math inline">\(ab \in \mathfrak{p}\)</span>, then <span class="math inline">\(a \in \mathfrak{p}\)</span> or <span class="math inline">\(b \in \mathfrak{p}\)</span></p>
+<p>Prime ideals are very special. Think of the different relations that might arise in the quotient ring of a non-prime ideal versus a prime ideal. Consider a non-prime ideal <span class="math inline">\(\mathfrak{a}\)</span>. Since it is not prime, there exist some elements <span class="math inline">\(x, y \notin \mathfrak{a}\)</span> such that <span class="math inline">\(xy \in \mathfrak{a}\)</span>. This means that in the quotient ring <span class="math inline">\(A/\mathfrak{a}\)</span>, we have <span class="math inline">\(x \neq 0, y \neq 0\)</span>, but <span class="math inline">\(xy = 0\)</span>. In other words, the quotient ring has <em>zero divisors.</em> On the other hand, prime ideals are characterized by the fact that their quotient rings have no zero divisors.</p>
+<p><strong>Example:</strong> In the same ring as our previous example, <span class="math inline">\(\mathbb{R}[x]\)</span>, quotienting by the <em>non-prime</em> ideal <span class="math inline">\((x(x-1))\)</span> means that <span class="math inline">\(x\neq 0\)</span> and <span class="math inline">\(x-1\neq 0\)</span>, but <span class="math inline">\(x(x-1)=0\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="x(x-1).png" class="img-fluid figure-img"></p>
+<figcaption>Geometrically, this corresponds roughly to looking at the points where <span class="math inline">\(x(x-1)=0\)</span> – i.e., at <span class="math inline">\(x=0\)</span> and <span class="math inline">\(x=1\)</span>. We can see that the green line, <span class="math inline">\(y=x(x-1)\)</span> is zero at both of these points, but the black line, <span class="math inline">\(y=x\)</span>, and the blue line, <span class="math inline">\(y=x-1\)</span>, are zero at only one of those points. Therefore <span class="math inline">\(x\)</span> and <span class="math inline">\(x-1\)</span> are zero divisors in the corresponding quotient ring <span class="math inline">\(\mathbb{R}[x]/(x(x-1))\)</span>. Certainly it makes more sense to consider <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=0\)</span> as two different points, which is why we will focus on prime ideals in the following construction.</figcaption>
+</figure>
+</div>
+</section>
+<section id="22-operations" class="level3">
+<h3 class="anchored" data-anchor-id="22-operations">2.2 Operations on Ideals</h3>
+<p><strong>Addition:</strong> <span class="math inline">\(\mathfrak{a} + \mathfrak{b} := \{x + y : x \in \mathfrak{a}, y \in \mathfrak{b}\}\)</span>. This is the smallest ideal containing both <span class="math inline">\(\mathfrak{a}\)</span> and <span class="math inline">\(\mathfrak{b}\)</span>.<br>
+<strong>Multiplication:</strong> <span class="math inline">\(\mathfrak{a}\mathfrak{b}\)</span> is the ideal generated by all products <span class="math inline">\(xy\)</span> with <span class="math inline">\(x \in \mathfrak{a}\)</span> and <span class="math inline">\(y \in \mathfrak{b}\)</span>.<br>
+<strong>Intersection:</strong> The intersection of any family of ideals is an ideal.</p>
+<p><strong>Remark:</strong> Consider what these ideals might look like if we quotient by <span class="math inline">\(\mathfrak{a}\)</span> or <span class="math inline">\(\mathfrak{b}\)</span>. We can use the example of a polynomial ring and the ideals generated by the variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. In this case, literally plugging in <span class="math inline">\(x=0\)</span> to each polynomial in our ring is the same thing as quotienting by the ideal generated by <span class="math inline">\(x\)</span>. What happens to the ideal <span class="math inline">\((x) + (y)\)</span> when we set <span class="math inline">\(x = 0\)</span>? What about <span class="math inline">\((x)(y)\)</span> and <span class="math inline">\((x) \cap (y)\)</span>?</p>
+</section>
+</section>
+<section id="3-spec-zariski" class="level1">
+<h1>3. The Prime Spectrum and the Zariski Topology</h1>
+<p>Time for the good stuff! Remember that we are trying to build a topological space from a ring. We are guided by the canonical example of a polynomial ring and the associated topological space, in which geometric objects are defined by being the zero sets of some elements of the corresponding ring. We defined ideals and talked about how they can be thought of as zero sets. So we should aim to construct a topological space whose points are zero sets, i.e.&nbsp;prime ideals.</p>
+<p><strong>Remark:</strong> In Math 210C, my professor did this construction categorically – he defined the category of “picture datas” and showed that the prime spectrum is final. I thought that was really cool and might make another post about it.</p>
+<section id="31-construction" class="level3">
+<h3 class="anchored" data-anchor-id="31-construction">3.1 Construction</h3>
+<p><strong>Definition:</strong> The <em>prime spectrum</em> of a ring <span class="math inline">\(A\)</span>, denoted <span class="math inline">\(\text{Spec}(A)\)</span>, is the set of all prime ideals of <span class="math inline">\(A\)</span>.</p>
+<p>This is the topological space we seek. Don’t get confused: the points of this space are <em>not</em> elements of the ring, but <em>prime ideals</em> of the ring.</p>
+<p>In order to talk about continuous functions on this space, we need to define a topology on it.</p>
+<p><strong>Definition:</strong> We define the <em>Zariski topology</em> on <span class="math inline">\(Spec(A) =: X\)</span> by defining closed sets in this topology. For each subset <span class="math inline">\(E\subseteq A\)</span>, let <span class="math inline">\(V(E):= \{\mathfrak{p} \in X:E\subseteq \mathfrak{p}\}\)</span>. We call <span class="math inline">\(V(E)\)</span> the <em>vanishing locus</em> of the set <span class="math inline">\(E\)</span>.</p>
+<p><strong>Intuition:</strong> If we think of <span class="math inline">\(E\)</span> as a set of <em>functions</em> on our topological space, then the <em>vanishing locus</em> should refer to the points where all the elements in <span class="math inline">\(E\)</span> are zero.</p>
+</section>
+<section id="32-verification" class="level3">
+<h3 class="anchored" data-anchor-id="32-verification">3.2 Verification</h3>
+<p>The Zariski topology is quite strange, because we defined it so that it would encode the algebraic structure of our ring into the geometric structure of <span class="math inline">\(Spec(A)\)</span>. When our ring is not one with an obvious associated space, <span class="math inline">\(Spec(A)\)</span> looks really weird. It’s kind of impossible to even draw <span class="math inline">\(Spec(\mathbb{Z}[x])\)</span> (see <a href="#0-mumford">Mumford’s Treasure Map</a>!</p>
+<p>So, verifying that the Zariski topology is a valid topology is not trivial, and I think it’s also a very useful exercise to become familiar. If you’re interested, proof is below. If not, take my word and skip ahead!</p>
+<details>
+<summary>
+Proof
+</summary>
+<p><strong>(i)</strong> If <span class="math inline">\(\mathfrak{a}\)</span> is the ideal generated by <span class="math inline">\(E\)</span>, then <span class="math inline">\(V(E)=V(\mathfrak{a})=V(r(\mathfrak{a}))\)</span></p>
+<p><em>Solution:</em> <span class="math inline">\(V(E)\subseteq V(\mathfrak{a})\subseteq V(r(\mathfrak{a}))\)</span> is clear: any ideal containing <span class="math inline">\(E\)</span> must contain <span class="math inline">\(\mathfrak{a}\)</span>, and any prime ideal containing <span class="math inline">\(\mathfrak{a}\)</span> contains <span class="math inline">\(r(\mathfrak{a})\)</span>.</p>
+<p>The other direction is also clear since <span class="math inline">\(E \subseteq \mathfrak{a} \subseteq r(\mathfrak{a})\)</span>.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(V(0) = X, V(1) = \emptyset\)</span></p>
+<p><em>Solution:</em> <span class="math inline">\(0\)</span> is contained in all prime ideals, and <span class="math inline">\(1\)</span> is not contained in any since <span class="math inline">\((1) = A\)</span>.</p>
+<p><strong>(iii)</strong> If <span class="math inline">\((E_i)_{i\in I}\)</span> is any family of subsets of <span class="math inline">\(A\)</span>, then <span class="math inline">\(V(\bigcup\limits_{i\in I}E_i) = \bigcap\limits_{i\in I}V(E_i)\)</span></p>
+<p><em>Solution:</em> <span class="math inline">\(\mathfrak{p} \in V(\bigcup\limits_{i\in I}E_i) \Leftrightarrow E_i \subseteq \mathfrak{p}\)</span> <span class="math inline">\((\forall\)</span> <span class="math inline">\(i\in I) \Leftrightarrow \mathfrak{p} \in \bigcap\limits_{i\in I}V(E_i)\)</span></p>
+<p><strong>(iv)</strong> <span class="math inline">\(V(\mathfrak{a}\)</span> <span class="math inline">\(\cap\)</span> <span class="math inline">\(\mathfrak{b})=V(\mathfrak{ab})=V(\mathfrak{a})\cup V(\mathfrak{b})\)</span> for all ideals <span class="math inline">\(\mathfrak{a, b}\)</span> of <span class="math inline">\(A\)</span></p>
+<p><em>Solution:</em><span class="math inline">\(\mathbf{V(\mathfrak{a} \cap \mathfrak{b}) = V(\mathfrak{ab})}\)</span>:</p>
+<p><span class="math inline">\(\mathfrak{ab} \subseteq (\mathfrak{a} \cap \mathfrak{b})\)</span> always. Hence <span class="math inline">\(V(\mathfrak{a} \cap \mathfrak{b})\subseteq V(\mathfrak{ab})\)</span>. For the other direction, let <span class="math inline">\(\mathfrak{p} \in V(\mathfrak{ab})\)</span> and let <span class="math inline">\(x \in \mathfrak{a} \cap \mathfrak{b}\)</span>. Then <span class="math inline">\(x^2 \in \mathfrak{ab} \subseteq \mathfrak{p} \Rightarrow x \in \mathfrak{p}\)</span>. Hence <span class="math inline">\(\mathfrak{a} \cap \mathfrak{b} \subseteq \mathfrak{p} \therefore V(\mathfrak{ab}) \subseteq V(\mathfrak{a} \cap \mathfrak{b})\)</span></p>
+<p><span class="math inline">\(\mathbf{V(\mathfrak{ab})=V(\mathfrak{a}) \cup V(\mathfrak{b})}\)</span>:</p>
+<p><span class="math inline">\(\mathfrak{ab} \subseteq \mathfrak{a}\)</span>, <span class="math inline">\(\mathfrak{ab} \subseteq \mathfrak{b},\)</span> hence <span class="math inline">\(V(\mathfrak{a})\subseteq V(\mathfrak{ab})\)</span>, <span class="math inline">\(V(\mathfrak{b})\subseteq V(\mathfrak{ab}) \therefore V(\mathfrak{a})\cup V(\mathfrak{b}) \subseteq V(\mathfrak{ab})\)</span></p>
+<p>For the other direction, if <span class="math inline">\(\mathfrak{ab} \subseteq \mathfrak{p}\)</span> then we must have <span class="math inline">\(\mathfrak{a}\subseteq \mathfrak{p}\)</span> or <span class="math inline">\(\mathfrak{b}\subseteq \mathfrak{p}\)</span>, so <span class="math inline">\(V(\mathfrak{ab}) \subseteq V(\mathfrak{a}) \cup V(\mathfrak{b})\)</span>.</p>
+</details>
+</section>
+<section id="33-open-sets" class="level3">
+<h3 class="anchored" data-anchor-id="33-open-sets">3.3 Open sets in the Zariski topology</h3>
+<p><strong>Definition:</strong> For each <span class="math inline">\(f\in A\)</span>, let <span class="math inline">\(X_f\)</span> denote the complement of <span class="math inline">\(V(f)\)</span> in <span class="math inline">\(X\)</span>. These are open sets and are called <em>basic open sets</em>.</p>
+<strong>Proposition 1:</strong> The basic open sets <span class="math inline">\(X_f\)</span> form a basis for the open sets of <span class="math inline">\(X\)</span>.
+<details>
+<summary>
+Proof:
+</summary>
+<p>Let <span class="math inline">\((V(E))^{C} =: U\subseteq X\)</span> be an arbitrary open set.</p>
+<p>Let <span class="math inline">\(\mathfrak{p}\in U\)</span>. Then <span class="math inline">\(E \nsubseteq \mathfrak{p} \Rightarrow \exists f \in E\)</span> such that <span class="math inline">\(f \notin \mathfrak{p} \Rightarrow \mathfrak{p} \in X_f\subseteq U\)</span></p>
+<p>We can do this for every prime ideal <span class="math inline">\(\mathfrak{p}_i \in U\)</span> to obtain open sets <span class="math inline">\((X_{f_i})_{i\in I}\)</span> such that each <span class="math inline">\(X_{f_i} \subseteq U \Rightarrow \bigcup\limits_{i\in I}X_{f_i} \subseteq U\)</span></p>
+<p>But we also have that every <span class="math inline">\(\mathfrak{p}_i \in U\)</span> is contained in the corresponding <span class="math inline">\(X_{f_i}\)</span>, hence <span class="math inline">\(\bigcup\limits_{i\in I}X_{f_i} \supseteq U \Rightarrow \bigcup\limits_{i\in I}X_{f_i}=U\)</span> <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>So we can understand the Zariski topology by thinking of the closed sets as “zero sets” and the open sets as “nonzero sets.”</p>
+</section>
+<section id="34-properties" class="level3">
+<h3 class="anchored" data-anchor-id="34-properties">3.4 Properties</h3>
+<p><strong>(i)</strong> <span class="math inline">\(X_f \cap X_g = X_{fg}\)</span></p>
+<p>This means that the subset where <span class="math inline">\(f\)</span> is nonzero and <span class="math inline">\(g\)</span> is nonzero is precisely where <span class="math inline">\(fg\)</span> is nonzero – makes sense!</p>
+<p><strong>(ii)</strong> <span class="math inline">\(X_f = \emptyset \Leftrightarrow f\)</span> is nilpotent (recall that the nilradical <span class="math inline">\(\mathfrak{N}(A)=r((0))\)</span> is the intersection of all the prime ideals of <span class="math inline">\(A\)</span>)</p>
+<p><strong>(iii)</strong> <span class="math inline">\(X_f = X \Leftrightarrow f\)</span> is a unit</p>
+<p><strong>(iv)</strong> <span class="math inline">\(X_f = X_g \Leftrightarrow r((f))=r((g))\)</span></p>
+<p><em>Proofs of the above properties are straightforward exercises left to the reader :)</em></p>
+<p><strong>(v)</strong> <span class="math inline">\(X\)</span> and each <span class="math inline">\(X_f\)</span> are quasi-compact (i.e.&nbsp;every open cover has a finite subcover)</p>
+<details>
+<summary>
+Proof
+</summary>
+<p>Let <span class="math inline">\((U_\beta)_{\beta\in B}\)</span> be an open cover of <span class="math inline">\(X\)</span>.</p>
+<p>Rewrite as basic open sets <span class="math inline">\((X_{f_i})_{i\in I}\)</span></p>
+<p>Claim that <span class="math inline">\((1) \subseteq (\{f_i\}_{i\in I})\)</span>.</p>
+<p>Indeed, if not, then <span class="math inline">\(\exists\)</span> some prime ideal <span class="math inline">\(\mathfrak{p} \supseteq (\{f_i\}_{i\in I}) \Rightarrow \mathfrak{p} \in V(f_i)\)</span> <span class="math inline">\(\forall i\in I\)</span>.</p>
+<p>Then <span class="math inline">\(\mathfrak{p} \in \bigcap\limits_{i\in I}V(f_i) \Rightarrow \bigcap\limits_{i\in I}V(f_i) \neq \emptyset\)</span>. But then <span class="math inline">\((\bigcap\limits_{i\in I}V(f_i))^C = \bigcup\limits_{i\in I}X_{f_i}\neq X\)</span>, a contradiction. This proves the claim.</p>
+<p>So we have that the <span class="math inline">\(f_i\)</span>’s generate <span class="math inline">\((1)\)</span>. Then for some <em>finite</em> subset <span class="math inline">\(J\subseteq I\)</span> and <span class="math inline">\((g_j)_{j\in J} \subseteq A\)</span>, we have<br>
+<span class="math inline">\(1 = \sum\limits_{j\in J}f_jg_j\)</span>. In particular, <span class="math inline">\((\{f_j\})_{j\in J} = (1) = A \Rightarrow \bigcup\limits_{j\in J}X_{f_j} = X\)</span>.</p>
+<p>Then, choosing one <span class="math inline">\(U_{\beta_j}\)</span> for each <span class="math inline">\(j\in J\)</span> such that <span class="math inline">\(X_{f_j} \subseteq U_{\beta_j}\)</span>, we get <span class="math inline">\(\bigcup\limits_{j\in J}X_{f_j} = X \subseteq \bigcup\limits_{j\in J}U_{\beta_j}\)</span><br>
+<span class="math inline">\(\Rightarrow X = \bigcup\limits_{j\in J}U_{\beta_j}\)</span> <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p><strong>(vi)</strong> An open subset of <span class="math inline">\(X\)</span> is quasi-compact iff it is the finite union of some <span class="math inline">\(X_f\)</span>’s. For this one, the proof is very similar to the proof of (v), except that we find a finite subset which generates <span class="math inline">\(f^n\)</span> instead of <span class="math inline">\((1)\)</span>.</p>
+</section>
+</section>
+<section id="4-functoriality" class="level1 page-columns page-full">
+<h1>4. Functoriality</h1>
+<p>After getting into the nitty-gritty of just how weird the Zariski topology is, let us recall the big picture: we are trying to connect algebra and geometry by associating algebraic objects with corresponding geometric objects. The relationship between them is that the elements of our ring are somehow functions on the geometric thing.</p>
+<p>We began by observing that every topological space comes with a commutative ring of functions. Then we found that every commutative ring comes with a topological space (the prime spectrum). The questions still remaining are:<br>
+ <strong>(1)</strong> <em>How can we formalize the relationship between the algebraic thing and the geometric thing?</em><br>
+ <strong>(2)</strong> We have a way to go from geometry to algebra and a way to go from algebra to geometry. <em>How do these relate to each other?</em><br>
+ <strong>(3)</strong> <em>How exactly do the elements of</em> <span class="math inline">\(A\)</span> <em>act as “continuous functions” on</em> <span class="math inline">\(Spec(A)\)</span><em>?</em></p>
+<p>Reader, the bad news is that there is no way around using category theory here. But the good news is also that there is no way around using category theory here &lt;3. The concepts may be unfamiliar, but I promise that it is not computationally difficult, and I encourage you to keep reading because the following section is what makes it all come together.</p>
+<p><strong>If you are a normal (non-math) person who just wants to be done by now, then here are the best answers I can give you:</strong><br>
+ <strong>(1)</strong> We can formalize it using category theory.<br>
+ <strong>(2)</strong> They are sort of inverses. I have misled you a bit about how we should be going from geometry land to algebra land (I have only given the example of associating to a topological space the ring of continuous real-valued functions). We will instead look at a slightly different map called the <em>sheaf of regular functions</em>, denoted <span class="math inline">\(O\)</span>, and we will see that <span class="math inline">\(Spec\)</span> and <span class="math inline">\(O\)</span> are basically inverses.<br>
+ <strong>(3)</strong> Essentially, a <em>regular function</em> is a special kind of continuous function. Since <span class="math inline">\(Spec\)</span> and <span class="math inline">\(O\)</span> are (almost) inverses, we get that <span class="math inline">\(A \cong O(Spec(A))\)</span>. So <span class="math inline">\(A\)</span> is isomorphic to the ring of regular functions on <span class="math inline">\(Spec(A)\)</span>, which are continuous.</p>
+<section id="41-detour" class="level3">
+<h3 class="anchored" data-anchor-id="41-detour">4.1 A Little Detour into Category Theory</h3>
+<p>In math, we study a variety of types of mathematical objects, with different structure. The structure of a ring is inherently algebraic – the elements of a ring are related to one another by the operations of addition and multiplication. On the other hand, a topological space is a generalization of a geometric structure – here the structure arises from a notion of how “close” points are to one another, which is defined by belonging to open and closed subsets (rather than a numerical measure of distance). Category theory was invented to allow us to formally categorize mathematical objects by their structure, and examine the relations between different categories.</p>
+<p><strong>Definition:</strong> A <em>category</em> <span class="math inline">\(\mathscr{C}\)</span> consists of a <em>class</em> <span class="math inline">\(Ob(\mathscr{C})\)</span> of objects, along with a class <span class="math inline">\(Mor(\mathscr{C})\)</span> of <em>morphisms</em> between them. The only requirements we impose are:<br>
+  <strong>(i)</strong> Each object <span class="math inline">\(C \in \mathscr{C}\)</span> has an <em>identity morphism</em> <span class="math inline">\(id_C \in Mor_{\mathscr{C}}(C, C)\)</span> (sometimes denoted <span class="math inline">\(1_C\)</span>)<br>
+  <strong>(ii)</strong> Morphisms can be composed associatively</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="category.webp" class="img-fluid figure-img"></p>
+<figcaption>We often draw diagrams of categories like this to show the objects and morphisms between them.</figcaption>
+</figure>
+</div>
+<p><strong>Examples:</strong><br>
+  <span class="math inline">\(\textbf{Set}\)</span> – Objects are sets; morphisms are functions<br>
+  <span class="math inline">\(\textbf{Top}\)</span> – Objects are topological spaces; morphisms are continuous functions<br>
+  <span class="math inline">\(\textbf{Ring}\)</span> – Objects are rings; morphisms are ring homomorphisms<br>
+  <span class="math inline">\(\textbf{CRing}\)</span> – Objects are commutative rings; morphisms are ring homomorphisms (subcategory of <span class="math inline">\(\textbf{Ring}\)</span>)   <span class="math inline">\(\mathbf{Vect_k}\)</span> – Objects are vector spaces over a field <span class="math inline">\(k\)</span>; morphisms are linear transformations</p>
+<p>So a category is (for our purposes) a collection of objects with the same kind of mathematical structure, and the morphisms between objects are maps that preserve that structure – we require morphisms in <span class="math inline">\(\textbf{Top}\)</span> to be continuous so that the pre-image of an open set is open, thus preserving the topological structure. Similarly, ring homomorphisms respect addition and multiplication, preserving the structure of the objects in <span class="math inline">\(\textbf{Ring}\)</span>. What about mapping from one category to another?</p>
+<p><strong>Definition:</strong> A <em>functor</em> <span class="math inline">\(F: \mathscr{C} \rightarrow \mathscr{D}\)</span> is a mapping from a category <span class="math inline">\(\mathscr{C}\)</span> to a category <span class="math inline">\(\mathscr{D}\)</span>. <span class="math inline">\(F\)</span> maps an object <span class="math inline">\(X\)</span> in <span class="math inline">\(\mathscr{C}\)</span> to an object <span class="math inline">\(F(X)\)</span> in <span class="math inline">\(\mathscr{D}\)</span>, and a morphism <span class="math inline">\(f: X \rightarrow Y\)</span> in <span class="math inline">\(\mathscr{C}\)</span> to a morphism <span class="math inline">\(F(f): F(X) \rightarrow F(Y)\)</span> in <span class="math inline">\(\mathscr{D}\)</span>. We require that <span class="math inline">\(F(id_X) = id_{F(X)}\)</span> for all objects <span class="math inline">\(X \in \mathscr{C}\)</span> and that <span class="math inline">\(F(g \circ f) = F(g) \circ F(f)\)</span> for all morphisms <span class="math inline">\(f:X\rightarrow Y, g:Y\rightarrow Z\)</span> in <span class="math inline">\(\mathscr{C}\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="functor.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="300"></p>
+</figure>
+</div>
+<p>You may have predicted by now where this is going: we’re going to show that <span class="math inline">\(Spec\)</span> is a functor from <span class="math inline">\(\textbf{CRing}\)</span> to <span class="math inline">\(\textbf{Top}\)</span>. Indeed we have already verified that <span class="math inline">\(Spec\)</span> takes objects to objects in <a href="#32-verification">Section 3.2</a>, when we verified that the Zariski topology is a valid topology on the prime spectrum. We must now define how <span class="math inline">\(Spec\)</span> acts on morphisms (there is of course a natural way to do so) and then verify that this definition takes a ring homomorphism to a continuous function.</p>
+</section>
+<section id="42-morphisms" class="level3">
+<h3 class="anchored" data-anchor-id="42-morphisms">4.2 Hom(e)omorphisms</h3>
+<p><strong>Notation:</strong> For this section, let <span class="math inline">\(A, B\in \textbf{CRing}\)</span> be commutative rings and <span class="math inline">\(\phi: A\rightarrow B\)</span> a ring homomorphism. Let <span class="math inline">\(X := Spec(A), Y := Spec(B)\)</span>.</p>
+<p><strong>Preliminary Fact:</strong> The (set-theoretic) pre-image <span class="math inline">\(\phi^{-1}(\mathfrak{q})\)</span> of any prime ideal <span class="math inline">\(\mathfrak{q} \in Y\)</span> is a prime ideal of <span class="math inline">\(A\)</span> (verifying this is an easy exercise).</p>
+<p>Hence <span class="math inline">\(\phi\)</span> naturally induces a map from <span class="math inline">\(Y\)</span> to <span class="math inline">\(X\)</span> – a well-defined function between <em>topological spaces.</em></p>
+<p><strong>Definition:</strong> We define <span class="math inline">\(Spec(\phi): Spec(B) \rightarrow Spec(A)\)</span> to be the induced map we observed above, which sends each prime ideal <span class="math inline">\(\mathfrak{q} \mapsto \phi^{-1}(\mathfrak{q})\)</span>. For ease of notation, we will denote <span class="math inline">\(Spec(\phi)\)</span> by <span class="math inline">\(\phi^*: Y \rightarrow X\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="spec.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>I agree that it is off-putting that Spec switches the direction of the morphism. But this is not really a big deal; we just call it a “contravariant” (as opposed to “covariant”) functor.</figcaption>
+</figure>
+</div>
+<p>But a morphism in <span class="math inline">\(\textbf{Top}\)</span> is not just any well-defined function; it must be <em>continuous.</em> This means that the pre-image of an open set must be an open set. This ensures that the morphisms in the category <span class="math inline">\(\textbf{Top}\)</span> respect the topological structure of the objects. So we must show that <span class="math inline">\(\phi^*\)</span> is continuous if we want to say that <span class="math inline">\(Spec\)</span> is a functor.</p>
+<p><strong>Proposition 2:</strong> <span class="math inline">\(\phi^*\)</span> is indeed continuous.</p>
+<details>
+<summary>
+Proof
+</summary>
+<p>We must show that an arbitrary open set in <span class="math inline">\(X\)</span> has open pre-image in <span class="math inline">\(Y\)</span>. By <a href="#33-open-sets">Proposition 1</a>, it suffices to show that the pre-image of a <em>basic</em> open set in <span class="math inline">\(X\)</span> is open in <span class="math inline">\(Y\)</span>.</p>
+<p>Let <span class="math inline">\(f \in A\)</span>. <span class="math inline">\(X_f\)</span> is a basic open set in <span class="math inline">\(X\)</span>. I claim that <span class="math inline">\((\phi^*)^{-1}(X_f) = Y_{\phi(f)}\)</span>, which is a basic open set in <span class="math inline">\(Y\)</span>.</p>
+<p>Indeed, <span class="math inline">\(\phi(f) \in B\)</span>. We have <span class="math inline">\(Y_{\phi(f)}=\{\mathfrak{q} \in Y:\phi(f)\notin \mathfrak{q}\}.\)</span></p>
+<p>For any such <span class="math inline">\(\mathfrak{q}\in Y_{\phi(f)}\)</span>, we have that <span class="math inline">\(\phi^\ast (\mathfrak{q})=\phi^{-1}(\mathfrak{q})\)</span> does not contain <span class="math inline">\(f\)</span>, because <span class="math inline">\(\phi(f)\notin \mathfrak{q}\)</span>. Thus <span class="math inline">\(Y_{\phi(f)} \subseteq (\phi^*)^{-1}(X_f).\)</span></p>
+<p>Now let <span class="math inline">\(\mathfrak{p} \in (\phi^\ast)^{-1}(X_f).\)</span> Then <span class="math inline">\(\phi^\ast(\mathfrak{p})\in X_f\)</span>. Therefore <span class="math inline">\(f\notin \phi^\ast(\mathfrak{p})\)</span>. Then <span class="math inline">\(\phi(f)\notin \phi(\phi^\ast(\mathfrak{p}))=\mathfrak{p}\)</span>.</p>
+<p>Thus, <span class="math inline">\(\mathfrak{p} \in Y_{\phi(f)}\)</span> and we conclude that <span class="math inline">\(Y_{\phi(f)} \supseteq (\phi^\ast)^{-1}(X_f)\)</span> <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>We now know that <span class="math inline">\(Spec\)</span> indeed maps morphisms in <span class="math inline">\(\textbf{CRing}\)</span> to morphisms in <span class="math inline">\(\textbf{Top}\)</span>. It is clear that the identity morphisms are preserved and that <span class="math inline">\(Spec\)</span> respects morphism composition, so we may conclude that <span class="math inline">\(Spec\)</span> is a functor!</p>
+<p>This is great because we can have a correspondence not only between objects, but also between maps. In particular, an isomorphism (an invertible ring homomorphism) <span class="math inline">\(A \cong B \in \textbf{CRing}\)</span> tells us that <span class="math inline">\(Spec(A) \cong Spec(B) \in \textbf{Top}\)</span>.</p>
+<p>Let us investigate a couple more special types of ring homomorphisms. In particular, topologies are defined by closed and open sets, so let us examine the ring homomorphisms which give rise to closed and open embeddings. Conveniently, the following proofs are much simplified by our knowledge that <span class="math inline">\(Spec\)</span> is functorial.</p>
+</section>
+<section id="43-quotient-closed" class="level3">
+<h3 class="anchored" data-anchor-id="43-quotient-closed">4.3 Quotients &amp; Closed Sets</h3>
+<p><strong>Definition:</strong> A continuous bijective function whose inverse is also continuous is called a <em>homeomorphism</em> (not to be confused with <em>homomorphisms</em>!). Homeomorphisms are precisely the isomorphisms in the category <span class="math inline">\(\textbf{Top}\)</span>.</p>
+<p><strong>Proposition 3:</strong> Let <span class="math inline">\(\phi:A \rightarrow B\)</span> be a surjective (onto) ring homomorphism. Then <span class="math inline">\(\phi^*\)</span> is a homeomorphism of <span class="math inline">\(Spec(B)\)</span> onto <span class="math inline">\(V(ker(\phi))\)</span>.</p>
+<p>The <a href="https://mathworld.wolfram.com/FirstRingIsomorphismTheorem.html">First Isomorphism Theorem for Rings</a> says that <span class="math inline">\(\phi(A) \cong A/ker(\phi)\)</span>. Since <span class="math inline">\(\phi\)</span> is surjective, we have <span class="math inline">\(B=\phi(A) \cong A/ker(\phi)\)</span>. By functoriality of <span class="math inline">\(Spec\)</span>, <span class="math inline">\(Spec(B) \cong Spec(A/ker(\phi))\)</span>. Thus it suffices to prove that <span class="math inline">\(Spec(A/ker(\phi)) \cong V(ker(\phi))\)</span>.</p>
+<details>
+<summary>
+Proof
+</summary>
+<p>Let <span class="math inline">\(I := ker(\phi)\)</span>. By the <a href="https://mathworld.wolfram.com/FourthRingIsomorphismTheorem.html">Fourth Isomorphism Theorem for Rings</a>, there is a bijective, inclusion-preserving correspondence between the set of prime ideals of <span class="math inline">\(A\)</span> containing <span class="math inline">\(I\)</span> and the set of prime ideals of the quotient ring <span class="math inline">\(A/I\)</span>. So we have a well-defined bijection <span class="math inline">\(V(I) \leftrightarrow Spec(A/I)\)</span>. The additional property that it is inclusion-preserving gives us continuity in both directions (where <span class="math inline">\(V(I)\)</span> inherits the subspace topology from <span class="math inline">\(Spec(A)\)</span>), so we see that this is in fact a homeomorphism. <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p><strong>Remark:</strong> When I did my original presentation, I hadn’t really learned any category theory yet, so I didn’t understand the implications of <span class="math inline">\(Spec\)</span> being functorial or how to use this fact in my proof of Proposition 3. The original proof I had in the slides constructed maps between each set and then checked continuity and bijectivity by hand, and was <em>much</em> longer.</p>
+</section>
+<section id="44-localization-open" class="level3">
+<h3 class="anchored" data-anchor-id="44-localization-open">4.4 Localizations &amp; Open Sets</h3>
+<p><strong>Definition:</strong> Let <span class="math inline">\(A \in \textbf{CRing}\)</span>. We say a subset <span class="math inline">\(S \subseteq A\)</span> is <em>multiplicatively closed</em> if <span class="math inline">\(1\in S\)</span> and for any <span class="math inline">\(s, t \in S\)</span>, we have <span class="math inline">\(st \in S\)</span>.</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(A \in \textbf{CRing}\)</span>, and let <span class="math inline">\(S \subseteq A\)</span> be a multiplicatively closed subset. We define the <em>localization of</em> <span class="math inline">\(A\)</span> <em>at</em> <span class="math inline">\(S\)</span>, denoted <span class="math inline">\(S^{-1}A\)</span>, to be the ring generated by elements of the form <span class="math inline">\(\{\frac{a}{s} : a\in A, s\in S\}\)</span>, modulo the equivalence relation that <span class="math inline">\(\frac{a}{s} \sim \frac{b}{t}\)</span> if <span class="math inline">\(at-bs=0 \in A\)</span>. In the special case that <span class="math inline">\(S= \{ f^n : n \geq 0 \}\)</span> for some <span class="math inline">\(f\in A\)</span>, then we denote <span class="math inline">\(S^{-1}A\)</span> by <span class="math inline">\(A[\frac{1}{f}]\)</span> (here we have inverted all powers of one element <span class="math inline">\(f\)</span>). In the special case that <span class="math inline">\(S= \{ s \in A : s \notin \mathfrak{p}\}\)</span>, we denote <span class="math inline">\(S^{-1}A\)</span> by <span class="math inline">\(A_{\mathfrak{p}}\)</span> (here we have inverted every element outside of a prime ideal <span class="math inline">\(\mathfrak{p}\)</span>).</p>
+<p>Localization is a generalization of the process by which we obtain the rational numbers <span class="math inline">\(\mathbb{Q}\)</span> from the integers <span class="math inline">\(\mathbb{Z}\)</span> – we are essentially just adding in a bunch of fractions, and the equivalence relation says that <span class="math inline">\(\frac{1}{2} = \frac{2}{4}\)</span>, for example.</p>
+<p>The central idea of localization is that it is making all of the elements in <span class="math inline">\(S\)</span> into <em>units</em> – that is, elements with multiplicative inverses. Indeed, we are manually adjoining a multiplicative inverse <span class="math inline">\(\frac{1}{s}\)</span> for each <span class="math inline">\(s\in S\)</span>.</p>
+<p>We all have the intuition that dividing by <span class="math inline">\(0\)</span> is not allowed. Think of the rational function <span class="math inline">\(y=\frac{1}{x}\)</span>, which is only defined on <span class="math inline">\(x\neq 0\)</span>. If we want to add <span class="math inline">\(\frac{1}{x}\)</span> to the ring of functions <span class="math inline">\(\mathbb{R}[x]\)</span>, then we have to make sure that <span class="math inline">\(x\)</span> is never <span class="math inline">\(0\)</span>, so we have to restrict the space on which our new ring <span class="math inline">\(\mathbb{R}[x, \frac{1}{x}]\)</span> acts as continuous functions from all of <span class="math inline">\(\mathbb{R}\)</span> to the open subset <span class="math inline">\({x\neq 0}\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rational.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>The function <span class="math inline">\(y=\frac{1}{x}\)</span> is defined everywhere <em>except</em> <span class="math inline">\(x=0\)</span>.</figcaption>
+</figure>
+</div>
+<p>The next proposition makes this idea precise. It is analogous to Proposition 3, which says that sending an ideal to <span class="math inline">\(0\)</span> in the ring corresponds geometrically to focusing on the vanishing locus of that ideal. In this section, we see that making an element into a unit, which is pretty much the opposite of making it <span class="math inline">\(0\)</span>, corresponds geometrically to restricting to the <em>nonzero</em> locus of that element.</p>
+<p><strong>Proposition 4:</strong> Let <span class="math inline">\(A\in \textbf{CRing}\)</span>, <span class="math inline">\(X := Spec(A)\)</span>, and <span class="math inline">\(f\neq 0 \in A\)</span>. Let <span class="math inline">\(\psi : A \rightarrow A[\frac{1}{f}]\)</span> be the canonical map <span class="math inline">\(a\mapsto \frac{a}{1}\)</span>. Then <span class="math inline">\(\psi^*\)</span> is a homeomorphism of <span class="math inline">\(Spec(A[\frac{1}{f}])\)</span> onto the open subset <span class="math inline">\(X_f \subseteq X\)</span>.</p>
+<details>
+<summary>
+Proof
+</summary>
+<p>This proof is essentially the exact analogue of Proposition 3 (instead of showing that the prime ideals of <span class="math inline">\(A/I\)</span> are the prime ideals of <span class="math inline">\(A\)</span> which contain <span class="math inline">\(I\)</span>, we want to show that the prime ideals of <span class="math inline">\(A[\frac{1}{f}]\)</span> are the prime ideals of <span class="math inline">\(A\)</span> which do <em>not</em> contain <span class="math inline">\(f\)</span>), which is cool. The only annoying part is that the correspondence is not a well-known theorem like the Fourth Isomorphism Theorem is (which is the analogue for quotient maps that we used in the same way to prove Proposition 3), so let’s prove it. We already have continuity, so it remains to show that <span class="math inline">\(\psi^*\)</span> is onto <span class="math inline">\(X_f\)</span>, is one-to-one, and is an open map.</p>
+<p>Let <span class="math inline">\(\mathfrak{p} \in Y:=Spec(A[\frac{1}{f}])\)</span>. Then <span class="math inline">\(\frac{f}{1} \notin \mathfrak{p}\)</span>, since <span class="math inline">\(\frac{f}{1}\)</span> is a unit in this ring, so <span class="math inline">\(f\in \psi^{-1}(\frac{f}{1}) \not\subseteq \psi^{-1}(\mathfrak{p})=\psi^*(\mathfrak{p})\)</span>. We conclude that <span class="math inline">\(\text{im}(\psi^*) \subseteq X_f\)</span>.</p>
+<p>Conversely, let <span class="math inline">\(\mathfrak{q} \in X_f\)</span>. Let <span class="math inline">\(\mathfrak{p}\)</span> be the ideal generated by the image <span class="math inline">\(\psi(\mathfrak{q})\)</span> in <span class="math inline">\(A[\frac{1}{f}]\)</span>. Claim that <span class="math inline">\(\mathfrak{p}\)</span> is prime. Indeed, if <span class="math inline">\(\frac{a}{f^n} \cdot \frac{b}{f^m} \in \mathfrak{p}\)</span>, WLOG assuming the fractions are reduced, then <span class="math inline">\(\frac{f^{n+m}ab}{1}\)</span> must be in <span class="math inline">\(\psi(\mathfrak{q})\)</span>. Then <span class="math inline">\(f^{n+m}ab \in \mathfrak{q}\)</span>, which is prime, and by assumption <span class="math inline">\(f\notin \mathfrak{q}\)</span>, so <span class="math inline">\(ab\in \mathfrak{q}\)</span>, so <span class="math inline">\(a\)</span> or <span class="math inline">\(b\)</span> is in <span class="math inline">\(\mathfrak{q}\)</span>, so <span class="math inline">\(\frac{a}{f^n}\)</span> or <span class="math inline">\(\frac{b}{f^m}\)</span> is in <span class="math inline">\(\mathfrak{p}\)</span>. So <span class="math inline">\(\mathfrak{p} \in Y\)</span> and clearly <span class="math inline">\(\psi^*(\mathfrak{p})=\mathfrak{q}\)</span>. We see that <span class="math inline">\(X_f \subseteq \text{im}(\psi^*)\)</span>, and so we conclude that <span class="math inline">\(X_f=\text{im}(\psi^*)\)</span>.</p>
+<p>Now we will show injectivity. Let <span class="math inline">\(\mathfrak{p}\neq \mathfrak{q} \in Y\)</span>. Let <span class="math inline">\(\frac{a}{f^n}\in \mathfrak{p}, \frac{a}{f^n} \notin \mathfrak{q}\)</span>. Then <span class="math inline">\(\frac{a}{1} \in \mathfrak{p}\)</span>, but <span class="math inline">\(\frac{a}{1} \notin \mathfrak{q}\)</span> since <span class="math inline">\(\mathfrak{q}\)</span> is prime and <span class="math inline">\(\frac{f^n}{1}, \frac{a}{f^n} \notin \mathfrak{q}\)</span>. So <span class="math inline">\(a \in \psi^{-1}(\frac{a}{1}) \subseteq \psi^{-1}(\mathfrak{p})=\psi^*(\mathfrak{p})\)</span>, but <span class="math inline">\(a \notin \psi^{-1}(\mathfrak{q})=\psi^*(\mathfrak{q})\)</span>. Therefore <span class="math inline">\(\psi^*(\mathfrak{p})\neq \psi^*(\mathfrak{q})\)</span>.</p>
+<p>Finally, we need to show that <span class="math inline">\(\psi^*\)</span> is an open map. By <a href="#33-open-sets">Proposition 1</a>, it suffices to show that <span class="math inline">\(\psi^*\)</span> maps basic open sets to open sets. Let <span class="math inline">\(\frac{a}{f^n} \in A[\frac{1}{f}]\)</span>, and WLOG assume the fraction is reduced. Since <span class="math inline">\(\frac{f^n}{1}\)</span> is a unit, <span class="math inline">\(Y_{\frac{a}{f^n}} = Y_{\frac{a}{1}} = Y_{\psi(a)}\)</span>. By our proof of <a href="#42-morphisms">Proposition 2</a>, <span class="math inline">\(Y_{\psi(a)} = (\psi^*)^{-1}(X_a)\)</span>. Thus <span class="math inline">\(\psi^*(Y_{\psi(a)}) = \text{im}(\psi^*) \cap X_a = X_f \cap X_a\)</span>, which is indeed an open subset of <span class="math inline">\(X_f\)</span> under the subspace topology. So we see that <span class="math inline">\(\psi^*\)</span> is an open map, which concludes our proof.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p><strong>Corollary:</strong> For <span class="math inline">\(\mathfrak{p} \in Spec(A)\)</span>, <span class="math inline">\(\eta: A \rightarrow A_{\mathfrak{p}}\)</span>, <span class="math inline">\(\eta^*\)</span> is a homeomorphism of <span class="math inline">\(Spec(A_{\mathfrak{p}})\)</span> onto <span class="math inline">\(\bigcap\limits_{f\notin \mathfrak{p}} X_f = \bigcap\limits_{\mathfrak{p} \in X_f}X_f\)</span>. This is the intersection of all of the open neighborhoods of <span class="math inline">\(\mathfrak{p}\)</span> in <span class="math inline">\(Spec(A)\)</span>. Later (if I get around to making part 2), we’ll see that <span class="math inline">\(A_{\mathfrak{p}}\)</span> is the ring of regular functions at <span class="math inline">\(\mathfrak{p}\)</span> which can be extended to some open neighborhood of <span class="math inline">\(\mathfrak{p}\)</span>.</p>
+</section>
+<section id="45-reflections" class="level3">
+<h3 class="anchored" data-anchor-id="45-reflections">4.5 Reflections</h3>
+<p>Let us summarize what we have covered in Section 4. We first learned some basic language of category theory and used it to describe our situation: we’re investigating the connections between the categories <span class="math inline">\(\textbf{CRing}\)</span> and <span class="math inline">\(\textbf{Top}\)</span>. We showed that <span class="math inline">\(Spec\)</span> is a functor from <span class="math inline">\(\textbf{CRing}\)</span> to <span class="math inline">\(\textbf{Top}\)</span>, since it maps a ring to a topological space and a homomorphism to a continuous function. Then we looked at two important special cases of homomorphisms and corresponding continuous functions.</p>
+<p>Why are these so important? The structure of a topological space comes from its closed and open subsets. If we want to look deeper at how <span class="math inline">\(Spec(A)\)</span> relates to <span class="math inline">\(A\)</span>, we should look at its closed and open subsets and try to relate these to <span class="math inline">\(A\)</span>. Let me explain how we did so with Propositions 3 &amp; 4.</p>
+<p>A continuous function that is a homeomorphism onto its image is called an <em>embedding.</em> The name refers to the idea of “embedding” a subspace within a larger space, and it allows us to treat the domain (space we map out of) as a subspace of the codomain (space we map into).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="embed.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Embedding a subspace <span class="math inline">\(X\subset Y\)</span></figcaption>
+</figure>
+</div>
+<p>If the image is closed in the target space, then it is called a <em>closed embedding,</em> and likewise for <em>open embeddings.</em> We just investigated closed embeddings with Proposition 3 and open embeddings with Proposition 4. Those results tell us that the closed subsets of <span class="math inline">\(Spec(A)\)</span> are actually <span class="math inline">\(Spec\)</span> of some <em>quotient</em> ring of <span class="math inline">\(A\)</span>, and that the open subsets of <span class="math inline">\(Spec(A)\)</span> are actually <span class="math inline">\(Spec\)</span> of some <em>localization</em> of <span class="math inline">\(A\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="spec_embed.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Proposition 3 tells us we can embed <span class="math inline">\(Spec(A/(f))\)</span> in <span class="math inline">\(Spec(A)\)</span> as <span class="math inline">\(V((f))\)</span> and Proposition 4 tells us we can embed <span class="math inline">\(Spec(A[\frac{1}{f}])\)</span> as its complement.</figcaption>
+</figure>
+</div>
+<p>We originally defined the closed and open sets only in terms of containing certain elements or subsets of the ring (recall how <a href="#31-construction">we defined</a> <span class="math inline">\(V(E)\)</span>), and at first it probably seemed quixotic to use the terms <em>zero</em> or <em>nonzero locus</em> for them. But now we know that the vanishing locus of an ideal is literally homeomorphic to what we would get if we set that ideal to zero (i.e., quotiented) in <span class="math inline">\(\textbf{CRing}\)</span> and then took <span class="math inline">\(Spec\)</span>. Likewise, the nonvanishing locus of a subset is homeomorphic to what we would get if we first added all the multiplicative inverses to our ring (essentially forcing them to be nonzero), then took <span class="math inline">\(Spec.\)</span> This allows us to understand the subsets of <span class="math inline">\(Spec(A)\)</span> in terms of which functions are defined there.</p>
+</section>
+<section id="concrete-example" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="concrete-example">Concrete Example</h3>
+<p>Again let <span class="math inline">\(A := \mathbb{R}[x, y]\)</span>. We picture <span class="math inline">\(Spec(A)\)</span> like the real <span class="math inline">\(xy\)</span>-plane <span class="math inline">\(\mathbb{R}^2\)</span>. Intuitively we know that the subset of <span class="math inline">\(\mathbb{R}^2\)</span> where <span class="math inline">\(y=0\)</span> is the <span class="math inline">\(x\)</span>-axis, so we should expect to find that <span class="math inline">\(V((y))\)</span> looks like the the <span class="math inline">\(x\)</span>-axis.</p>
+<p>How does this intuition stack up? Well, remember that quotienting by the ideal <span class="math inline">\((y)\)</span> is the same as setting the variable <span class="math inline">\(y\)</span> equal to <span class="math inline">\(0\)</span> in <span class="math inline">\(A\)</span>. So we have that <span class="math inline">\(A/(y) = \mathbb{R}[x,y]/(y) \cong \mathbb{R}[x]\)</span>. We also know that <span class="math inline">\(Spec(\mathbb{R}[x])\)</span> looks like the real number line, which is exactly the <span class="math inline">\(x\)</span>-axis!</p>
+<div class="page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="real_example.jpeg" class="img-fluid figure-img column-page"></p>
+<figcaption>Once we plug in <span class="math inline">\(y=0\)</span>, all of the <span class="math inline">\(y\)</span> terms vanish and we are left with only polynomials in <span class="math inline">\(x\)</span>. That is why <span class="math inline">\(Spec(A/(y))\)</span> looks like the <span class="math inline">\(x\)</span>-axis. Conversely, if we are allowing <span class="math inline">\(\frac{1}{y}\)</span> to be a function, then we <em>cannot</em> plug in <span class="math inline">\(y=0\)</span>. That is why <span class="math inline">\(Spec(A[\frac{1}{y}])\)</span> looks like the plane with the <span class="math inline">\(x\)</span>-axis cut out.</figcaption>
+</figure>
+</div>
+</div>
+<p>I have decided that this post is far too long, so I won’t add any more, even if it leaves two of the questions at the beginning of Section 4 mostly unanswered. I may make a part 2, which would be about the “inverse” functor to <span class="math inline">\(Spec\)</span>, which we call <span class="math inline">\(O\)</span>. I think that a geometric perspective tends to be more intuitive, so although the official definition of <span class="math inline">\(O\)</span> is pretty crazy, the idea of it actually seems more natural than <span class="math inline">\(Spec\)</span>, in my opinion.</p>
+<p>Thank you for reading!</p>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Throughout this post I use <span class="math inline">\(\mathbb{R}\)</span> as the field in most examples because it is most familiar and comfortable to most people. I have glossed over the implications of <span class="math inline">\(\mathbb{R}\)</span> not being algebraically closed, instead pretending that I can apply the Nullstellensatz in full so that I can use visuals of the real plane so as to avoid scaring away normies with complex numbers. But please know that in reality affine space over <span class="math inline">\(\mathbb{R}\)</span> is more like the complex plane folded in half than the real line – it includes every real number as a closed point, as well as a closed point for each complex conjugate pair <span class="math inline">\(a \pm bi\)</span> corresponding to the prime ideal generated by the irreducible polynomial <span class="math inline">\((x-a -bi)(x-a+bi)=x^2-2ax+a^2+b^2 \in \mathbb{R}[x]\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/beanelsontalbot\.github\.io\/stunning-umbrella");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
