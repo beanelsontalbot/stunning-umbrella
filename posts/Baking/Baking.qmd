@@ -1,0 +1,224 @@
+---
+title: "Baking!"
+author: Bea Nelson-Talbot
+categories: [Creative]
+format: html
+date: 2026-10-11
+lightbox:
+    match: auto
+    loop: true
+---
+
+*Here is a non-exhaustive log of some of my bakes:*  
+
+
+## Birthday Cakes
+
+Everyone knows that making something is much more fun when you're making it for someone else!  
+<br><br>
+
+::: {#fig-louise-cake layout-ncol=2}
+
+![](IMG_8569.JPG){group="gallery"}  
+
+![](IMG_8583.JPG){group="gallery"}  
+
+
+For my friend Louise: a three-layer chocolate cake with chocolate milk cake soak, strawberry jam, and chocolate French buttercream. I'm decidedly converted to French buttercream, or more generally any buttercream but American!
+
+:::
+
+<br><br><br>
+
+::: {#fig-jp-cake}
+
+{{< video JP_cake.mp4 fig-align = "center" >}}
+
+Probably my personal favorite in terms of looks: a carrot cake for Julius with brown butter cream cheese frosting and candied orange peels (too bad I only took a video and no pictures!)
+
+:::
+
+<br><br><br>
+
+::: {#fig-mom-cheesecake}
+
+![A lemon meringue cheesecake for my mom](IMG_8550.JPG){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-mom-cake layout-ncol=3}
+
+![](IMG_3309.JPG){group="gallery"}
+
+![](IMG_3313.JPG){group="gallery"}
+
+![](IMG_3315.JPG){group="gallery"}
+
+Also for my mom: I actually forgot what kind of cake this is, but I think it's chocolate cake, raspberry jam, coconut syrup cake soak, coconut buttercream? 
+
+:::
+
+<br><br><br>
+
+::: {#fig-fairy-circle}
+
+![A fairy circle cake for Maggie's birthday! This one is six layers of chocolate cake with vanilla cake soak, alternating chocolate ganache and peach jam, fig leaf Swiss meringue buttercream, matcha and Biscoff moss, and meringue mushrooms](IMG_7778.JPG){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-violeta}
+
+![A tres leches cake with flowers for Violeta (actually Michelle mostly made this; I just foraged the flowers)](IMG_2273.JPG){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-mom-lemon}
+
+![Lemon blackberry cake for my mom](IMG_1721.jpeg){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-jessica layout-ncol=3}
+
+![](IMG_0216.JPG){group="gallery"}
+
+![](IMG_8611.JPG){group="gallery"}
+
+![](IMG_8612.JPG){group="gallery"}
+
+The prettiest carrot caramel cakes Jessica and I made for her birthday this year!
+
+:::
+
+<br><br><br>
+
+::: {#fig-pithy layout="[[1, 1, 1], [1, 1, 1], [1, 1]]"}
+
+![The process...](IMG_3175.JPG){group="gallery"}
+
+![The finished raspberry flower cake for Willa](IMG_6686.JPEG){group="gallery"}
+
+![Aftermath](IMG_3186.JPG){group="gallery"}
+
+!["Love you to the moon & to Saturn" cake for Alice](IMG_1852.JPG){group="gallery"}
+
+![Weezer cake for Cassia](IMG_2780.JPG){group="gallery"}
+
+![Minecraft Steve cake for Cassia](IMG_4226.JPG){group="gallery"}
+
+![Harry Styles cake for Alice](IMG_3830.JPG){group="gallery"}
+
+![Another cute flowery cake for Maggie](IMG_4536.JPG){group="gallery"}
+
+These are all from high school, when my friends and I would bake each other's birthday cakes with really specific decorations. I think all the cakes are the same chocolate raspberry with different decorations?
+
+:::
+
+## Non Cake
+
+::: {#fig-apple-tart}
+
+![Apple tart](IMG_8508.JPG){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-tiramisu}
+
+![Banana tiramisu pie I made while practicing for Pi Day](tiramisu.jpg){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-pi layout-ncol=2}
+
+![](IMG_5330.JPG){group="gallery"}
+
+![](IMG_5332.JPG){group="gallery"}
+
+I threw a Pi Day party this year and Zac and I made these pies: I made mixed berry and vegan french silk, and Zac made chocolate cream and lemon meringue with raspberry stereographic projection
+
+:::
+
+<br><br><br>
+
+::: {#fig-scones}
+
+![Salted maple chocolate chunk scones](IMG_3043.jpeg){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-cookies}
+
+![Brown butter chocolate chip oatmeal cookies on the trail!](IMG_4344.JPG){width=500 group="gallery"}
+
+:::
+
+
+## B&ucirc;che de No&euml;l
+
+::: {#fig-buche24 layout-ncol=3}
+
+![](buche2.JPG){group="gallery"}
+
+![](buche2_jp.jpg){group="gallery"}
+
+![](IMG_0319.JPG){group="gallery"}
+
+2024
+
+:::
+
+<br><br><br>
+
+::: {#fig-buche23 layout-ncol=2}
+
+![](IMG_8433.JPG){group="gallery"}
+
+![](IMG_8441.JPG){group="gallery"}
+
+2023
+
+:::
+
+<br><br><br>
+
+::: {#fig-buche25 layout-ncol=2}
+
+![](buche3.jpg){group="gallery"}
+
+![](buche3_hedgehog.jpg){group="gallery"}
+
+2025. Added a hedgehog this year
+
+:::
+
+## Other Cakes
+
+<br><br><br>
+
+::: {#fig-zoe-caramel}
+
+![A caramel angel food cake with salted caramel whipped cream and drizzle that I made with Zoe (this is when I learned that I don't like angel food cake)](IMG_8899.JPG){width=500 group="gallery"}
+
+:::
+
+<br><br><br>
+
+::: {#fig-cupcakes}
+
+![True story: I used to be a professional cupcake froster](IMG_5633.JPG){width=500 group="gallery"}
+
+:::

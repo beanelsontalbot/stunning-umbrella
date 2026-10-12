@@ -1,5 +1,5 @@
 ---
-title: "My Blog"
+title: "Posts"
 listing:
   contents: posts
   sort: "date desc"
@@ -8,7 +8,6 @@ listing:
   sort-ui: false
   filter-ui: false
 page-layout: full
+margin-header: subscribe.html
 title-block-banner: true
 ---
-
-

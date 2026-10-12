@@ -1,1 +1,16 @@
 /.quarto/
+
+**/*.quarto_ipynb
+
+node_modules/
+*.mp4
+*.zip
+dist/
+
+_site/
+.ipynb_checkpoints/
+
+*.db
+*.sqlite
+**/datafiles/
+*.pdf
